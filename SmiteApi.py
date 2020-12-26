@@ -1,6 +1,6 @@
 import pyrez
 import os
-from utils import get_env
+#from utils import get_env
 import json
 
 import pyrez.api
