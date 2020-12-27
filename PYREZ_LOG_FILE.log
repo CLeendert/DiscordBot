@@ -19,3 +19,5 @@
 2020-12-27 10:33:29 SmiteAPI [[0;31mERROR[0m in API] DevId or AuthKey not specified!
 2020-12-27 10:33:44 SmiteAPI [[0;31mERROR[0m in API] DevId or AuthKey not specified!
 2020-12-27 13:46:07 PaladinsAPI [[0;34mDEBUG[0m in API] Approved: (Old session: None, new session: AADC452871B541ACABBAC8B31ACDE698)
+2020-12-27 15:32:28 SmiteAPI [[0;34mDEBUG[0m in API] Invalid session id. (AADC452871B541ACABBAC8B31ACDE698)
+2020-12-27 15:32:28 SmiteAPI [[0;34mDEBUG[0m in API] Approved: (Old session: AADC452871B541ACABBAC8B31ACDE698, new session: 10E7F16058DF4B8487C6BB3D1C5FED65)

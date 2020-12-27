@@ -24,19 +24,25 @@ smiteAPI = SmiteAPI(devId=devId, authKey=authKey)
 # }
 
 player_name = "Cleendert"
-player_id= smiteAPI.getPlayerId(player_name, portalId=None, xboxOrSwitch=False)
+player_id = smiteAPI.getPlayerId(player_name, portalId=None)
 print(player_id)
+player_idint = player_id[0]
+# MatchHistory = smiteAPI.getMatchHistory(player_id)
+# MatchDetails = smiteAPI.getPlayer(player_id[0])
+# print(MatchDetails)
+
 def main():
     with pyrez.SmiteAPI(devId, authKey) as smite:
         print(smite.getDataUsed())
 
+
 if __name__ == '__main__':
-	main()
+    main()
 
-def laatstespel():
-    with pyrez.SmiteAPI(devId, authKey) as smite:
-        print(smite.getMatchHistory(player_id))
-
+#
+# def laatstespel():
+#     with pyrez.SmiteAPI(devId, authKey) as smite:
+#         print(smite.getMatchHistory(player_id))
 
 # def get_player_id(player_name, platform=None):
 #     if not player_name or player_name in ['$(queryencode%20$(1:)', 'none', '0', 'null', '$(1)', 'query=$(querystring)',
@@ -47,17 +53,7 @@ def laatstespel():
 #         return player_name if len(str(player_name)) > 5 or len(str(player_name)) < 12 else 0
 #     temp = smiteAPI.getPlayerId(player_name, platform) if platform and str(
 #         platform).isnumeric() else smiteAPI.getPlayerId(player_name)
-#     if not temp:
-#         return -1
-#     return temp[0].playerId
-#
-#
-# def get_in_game_name(player):
-#     try:
-#         return (player.hzPlayerName or player.hzGamerTag) or player.playerName
-#     except Exception:
-#         pass
-#     return player.playerName
+
 #
 #
 # def get_rank_name(tier):
@@ -78,7 +74,4 @@ def laatstespel():
 #     if tier == 0:
 #         return 'Unranked'
 #     return '???'
-#
-#
-# def print_exception(exc):
-#     print(f'{type(exc)} : {exc.args} : {exc} : {str(exc)}')
+
