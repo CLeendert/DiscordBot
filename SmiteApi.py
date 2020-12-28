@@ -7,6 +7,7 @@ from pyrez.exceptions import (
 from pyrez.exceptions.PrivatePlayer import PrivatePlayer
 from pyrez.enumerations import Tier
 from pyrez import SmiteAPI
+import json
 from pyrez.enumerations.QueueSmite import QueueSmite
 
 # from ..utils import get_env
@@ -26,18 +27,22 @@ smiteAPI = SmiteAPI(devId=devId, authKey=authKey)
 player_name = "Cleendert"
 player_id = smiteAPI.getPlayerId(player_name, portalId=None)
 print(player_id)
-player_idint = player_id[0]
-# MatchHistory = smiteAPI.getMatchHistory(player_id)
+# print json.loads(player_id)[0]
+# player_id_values = player_id.values()
+# player_id_int = next(player_id_values)
+# print(player_id_int)
+MatchHistory = smiteAPI.getMatchHistory(355709)
+
 # MatchDetails = smiteAPI.getPlayer(player_id[0])
 # print(MatchDetails)
-
-def main():
-    with pyrez.SmiteAPI(devId, authKey) as smite:
-        print(smite.getDataUsed())
-
-
-if __name__ == '__main__':
-    main()
+print(MatchHistory)
+# def main():
+#     with pyrez.SmiteAPI(devId, authKey) as smite:
+#         print(smite.getDataUsed())
+#
+#
+# if __name__ == '__main__':
+#     main()
 
 #
 # def laatstespel():
