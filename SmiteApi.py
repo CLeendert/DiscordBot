@@ -17,6 +17,7 @@ from pyrez.enumerations.QueueSmite import QueueSmite
 import requests
 from DiscordBot.env_vars import devId, authKey
 
+# def connecteren:
 smiteAPI = SmiteAPI(devId=devId, authKey=authKey)
 
 # S_PLAYER_NOT_FOUND_STRINGS = {
@@ -27,15 +28,17 @@ smiteAPI = SmiteAPI(devId=devId, authKey=authKey)
 player_name = "Cleendert"
 player_id = smiteAPI.getPlayerId(player_name, portalId=None)
 print(player_id)
+# player_id_JSON = json.loads(player_id.text)
+# print (player_id_JSON)
 # print json.loads(player_id)[0]
 # player_id_values = player_id.values()
 # player_id_int = next(player_id_values)
 # print(player_id_int)
-MatchHistory = smiteAPI.getMatchHistory(355709)
+# MatchHistory = smiteAPI.getMatchHistory(355709)
 
 # MatchDetails = smiteAPI.getPlayer(player_id[0])
 # print(MatchDetails)
-print(MatchHistory)
+# print(MatchHistory)
 # def main():
 #     with pyrez.SmiteAPI(devId, authKey) as smite:
 #         print(smite.getDataUsed())
