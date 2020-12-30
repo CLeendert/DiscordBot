@@ -18,68 +18,91 @@ import requests
 from DiscordBot.env_vars import devId, authKey
 
 # def connecteren:
-smiteAPI = SmiteAPI(devId=devId, authKey=authKey)
-
-# S_PLAYER_NOT_FOUND_STRINGS = {
-#     'en': "🚫 ERROR: “{player_name}” doesn't exist or it's hidden!"
-#           " Make sure that your account is marked as “Public Profile”'"
-# }
-
-player_name = "Cleendert"
-player_id = smiteAPI.getPlayerId(player_name, portalId=None)
-print(player_id)
-# player_id_JSON = json.loads(player_id.text)
-# print (player_id_JSON)
-# print json.loads(player_id)[0]
-# player_id_values = player_id.values()
-# player_id_int = next(player_id_values)
-# print(player_id_int)
-# MatchHistory = smiteAPI.getMatchHistory(355709)
-
-# MatchDetails = smiteAPI.getPlayer(player_id[0])
-# print(MatchDetails)
-# print(MatchHistory)
-# def main():
-#     with pyrez.SmiteAPI(devId, authKey) as smite:
-#         print(smite.getDataUsed())
+# smiteAPI = SmiteAPI(devId=devId, authKey=authKey)
 #
+# player_name = "Cleendert"
+# player_id = smiteAPI.getPlayerId(player_name, portalId=None)
+# tests = []
+# # test = json.loads(player_id)
+# player_id2 = player_id.get('player_id')
 #
-# if __name__ == '__main__':
-#     main()
+# print(player_id2)
+import Dict
+import Gods
 
-#
-# def laatstespel():
-#     with pyrez.SmiteAPI(devId, authKey) as smite:
-#         print(smite.getMatchHistory(player_id))
 
-# def get_player_id(player_name, platform=None):
-#     if not player_name or player_name in ['$(queryencode%20$(1:)', 'none', '0', 'null', '$(1)', 'query=$(querystring)',
-#                                           '[invalid%20variable]', 'your_ign', '$target']:
-#         return 0
-#     player_name = player_name.strip().lower()
-#     if str(player_name).isnumeric():
-#         return player_name if len(str(player_name)) > 5 or len(str(player_name)) < 12 else 0
-#     temp = smiteAPI.getPlayerId(player_name, platform) if platform and str(
-#         platform).isnumeric() else smiteAPI.getPlayerId(player_name)
+class APIResponseBase(Dict):
+    """Superclass for all Pyrez models.
+    Keyword Arguments
+    -----------------
+    json : |DICT| or |LIST|
+        The request as JSON, if you prefer.
+    """
 
-#
-#
-# def get_rank_name(tier):
-#     if tier >= 1 and tier <= 5:
-#         return 'Bronze'
-#     if tier >= 6 and tier <= 10:
-#         return 'Silver'
-#     if tier >= 11 and tier <= 15:
-#         return 'Gold'
-#     if tier >= 16 and tier <= 20:
-#         return 'Platinum'
-#     if tier >= 21 and tier <= 25:
-#         return 'Diamond'
-#     if tier == 26:
-#         return 'Master'
-#     if tier == 27:
-#         return 'Grandmaster'
-#     if tier == 0:
-#         return 'Unranked'
-#     return '???'
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.json = kwargs or []
 
+
+class APIResponse(APIResponseBase):
+    """Represents a generic Pyrez object. This is a sub-class of :class:`APIResponseBase`.
+        Keyword Arguments
+        -----------------
+        errorMsg : |STR|
+            The message returned from the API request.
+        """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.errorMsg = kwargs.get("ret_msg", kwargs.get("error", kwargs.get("errors", None))) or None
+
+    @property
+    def hasError(self):
+        return self.errorMsg is not None
+
+
+class Winratio:
+    def __init__(self, **kwargs):
+        self.losses = kwargs.get("Losses", kwargs.get("losses", 0)) or 0
+        self.wins = kwargs.get("Wins", kwargs.get("wins", 0)) or 0
+
+    @property
+    def winratio(self):
+        _w = self.wins / (self.matches_played if self.matches_played > 1 else 1) * 100.0
+        return int(_w) if _w % 2 == 0 else round(_w, 2)
+
+    @property
+    def matches_played(self):
+        return self.wins + self.losses
+
+
+class KDA:
+    def __init__(self, **kwargs):
+        self.assists = kwargs.get("Assists", 0) or 0
+        self.deaths = kwargs.get("Deaths", 0) or 0
+        self.kills = kwargs.get("Kills", 0) or 0
+
+    @property
+    def kda(self):
+        _k = ((self.assists / 2) + self.kills) / (self.deaths if self.deaths > 1 else 1)
+        return int(_k) if _k % 2 == 0 else round(_k, 2)  # + "%";
+
+
+class GodRank(APIResponse, Winratio, KDA):
+    def __init__(self, **kwargs):
+        APIResponse.__init__(self, **kwargs)  # super().__init__(**kwargs)
+        Winratio.__init__(self, **kwargs)
+        KDA.__init__(self, **kwargs)
+        try:
+            self.godId = Gods(kwargs.get("god_id"))  # if kwargs.get("god_id") else Champions(kwargs.get("champion_id"))
+            self.godName = self.godId.getName()
+        except ValueError:
+            self.godId = kwargs.get("god_id", kwargs.get("champion_id", 0)) or 0
+            self.godName = kwargs.get("god", kwargs.get("champion", '')) or ''
+        self.godLevel = kwargs.get("Rank", 0) or 0
+        self.gold = kwargs.get("Gold", 0) or 0
+        self.lastPlayed = kwargs.get("LastPlayed", '') or ''
+        self.minionKills = kwargs.get("MinionKills", 0) or 0
+        self.minutes = kwargs.get("Minutes", 0) or 0
+        self.totalXP = kwargs.get("Worshippers", 0) or 0
+        self.playerId = kwargs.get("player_id", 0) or 0
