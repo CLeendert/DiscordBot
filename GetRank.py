@@ -21,5 +21,5 @@ class LastMatch:
         return rank
 
 
-cleendert = LastMatch('Cleendert')
-print(cleendert.conquest_rank())
+# cleendert = LastMatch('Cleendert')
+# print(cleendert.conquest_rank())
