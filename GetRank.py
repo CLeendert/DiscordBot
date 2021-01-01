@@ -24,12 +24,20 @@ class LastMatch:
         except PyrezException:
             return('is zo een n00b die private heeft opstaan')
 
-#TODO private player error handling
+    #Gets Match Id's
     # def match_history(self):
-    #     matchhistory = self.smiteAPI.getMatchids(426)
+    #     conquest = 426
+    #     matchhistory = self.smiteAPI.getMatchIds(conquest, hour=1)
     #     return matchhistory
+    # def queuestats(self):
+    #     queuestats= self.smiteAPI.getQueueStats(playerId=self.player_id())
+    #     return queuestats
 
-
-# cleendert = LastMatch('Cleendert')
-# print(cleendert.match_history())
+    def test(self):
+        conquest = 426
+        test = self.smiteAPI.getMatchIds(conquest)
+        return max(test)
+#
+cleendert = LastMatch('Cleendert')
+print(cleendert.test())
 # print(QueueSmite(426).name)
