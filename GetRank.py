@@ -1,6 +1,6 @@
 from pyrez import SmiteAPI
 from pyrez.enumerations import Tier
-import requests
+from pyrez.enumerations import QueueSmite
 from env_vars import devId, authKey
 
 
@@ -20,6 +20,11 @@ class LastMatch:
         rank = Tier(rank_number).name
         return rank
 
+    def match_history(self):
+        matchhistory = self.smiteAPI.getMatchids(426)
+        return matchhistory
 
-# cleendert = LastMatch('Cleendert')
-# print(cleendert.conquest_rank())
+
+cleendert = LastMatch('Cleendert')
+print(cleendert.match_history())
+# print(QueueSmite(426).name)
