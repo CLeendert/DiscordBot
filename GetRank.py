@@ -1,5 +1,6 @@
 from pyrez import SmiteAPI
 from pyrez.enumerations import Tier
+from pyrez.exceptions import PyrezException, PrivatePlayer, PlayerNotFound
 from pyrez.enumerations import QueueSmite
 from env_vars import devId, authKey
 
@@ -15,16 +16,20 @@ class LastMatch:
         return player_id[0].playerId
 
     def conquest_rank(self):
-        conquestrank = self.smiteAPI.getPlayer(self.player_id(), portalId=None)
-        rank_number = conquestrank.rankedConquest['Tier']
-        rank = Tier(rank_number).name
-        return rank
+        try:
+            conquestrank = self.smiteAPI.getPlayer(self.player_id(), portalId=None)
+            rank_number = conquestrank.rankedConquest['Tier']
+            rank = Tier(rank_number).name
+            return rank
+        except PyrezException:
+            return('is zo een n00b die private heeft opstaan')
 
-    def match_history(self):
-        matchhistory = self.smiteAPI.getMatchids(426)
-        return matchhistory
+#TODO private player error handling
+    # def match_history(self):
+    #     matchhistory = self.smiteAPI.getMatchids(426)
+    #     return matchhistory
 
 
-cleendert = LastMatch('Cleendert')
-print(cleendert.match_history())
+# cleendert = LastMatch('Cleendert')
+# print(cleendert.match_history())
 # print(QueueSmite(426).name)
