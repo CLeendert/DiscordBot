@@ -1,7 +1,7 @@
 from pyrez import SmiteAPI
 from pyrez.enumerations import Tier
 import requests
-from DiscordBot.env_vars import devId, authKey
+from env_vars import devId, authKey
 
 
 class LastMatch:

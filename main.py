@@ -1,6 +1,6 @@
 import discord
-from DiscordBot.env_vars import TOKEN
-from DiscordBot.GetRank import LastMatch
+from env_vars import TOKEN
+from GetRank import LastMatch
 
 client = discord.Client()
 
