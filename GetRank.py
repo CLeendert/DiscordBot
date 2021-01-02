@@ -31,9 +31,9 @@ class LastMatch:
 
     # Gets last Match Id's
     def last_match_id(self):
-        conquest = 426
+        # conquest = 426
         matchhistory = self.smiteAPI.getMatchHistory(self.player_id())
-        matchid = matchhistory[1].matchId
+        matchid = matchhistory[0].matchId
         return matchid
 
     def last_match_playerNames(self):
@@ -46,13 +46,15 @@ class LastMatch:
         ranks = []
         for player in names:
             ranks.append(LastMatch(player).conquest_rank())
-        return(ranks)
+        zip_iterator = zip(names, ranks)
+        rank_dict = dict(zip_iterator)
+        return(rank_dict)
 
 
 #
-cleendert = LastMatch('Cleendert')
+# cleendert = LastMatch('Cleendert')
 #
-print(cleendert.last_match_ranks())
+# print(cleendert.last_match_ranks())
 # cleendert.last_match_ranks()
 # print(cleendert.last_match_playerNames())
 # print(cleendert.queuestats())

@@ -25,16 +25,14 @@ async def on_message(message):
         await message.channel.send('Jazeker')
 
     if msg.startswith('is leendert een noob?'):
-        await message.channel.send('Nee die is toch Gold 2')
+        rankleendert = LastMatch(get_user_name).conquest_rank()
+        await message.channel.send('Nee die is toch ' + rankleendert)
 
     if msg.startswith('last match'):
-        get_user_name = msg.split('last match ', 1)[1]
-        ranks = LastMatch(get_user_name).last_match_ranks()
-        await message.channel.send(ranks)
 
-# keep_alive()
+        get_user_name = msg.split('last match ', 1)[1]
+        rankslastmatch = LastMatch(get_user_name).last_match_ranks()
+        await message.channel.send(rankslastmatch)
+
 client.run(TOKEN)
 
-# if msg.startswith('vorig spel'):
-#   rank = LastMatch('Cleendert').conquest_rank()
-#   await message.channel.send(rank)
