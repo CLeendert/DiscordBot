@@ -1,7 +1,6 @@
 import discord
 from env_vars import TOKEN
 from GetRank import LastMatch
-
 client = discord.Client()
 
 
@@ -24,9 +23,14 @@ async def on_message(message):
 
     if msg.startswith('is ben een noob?'):
         await message.channel.send('Jazeker')
+
     if msg.startswith('is leendert een noob?'):
         await message.channel.send('Nee die is toch Gold 2')
 
+    if msg.startswith('last match'):
+        get_user_name = msg.split('last match ', 1)[1]
+        ranks = LastMatch(get_user_name).last_match_ranks()
+        await message.channel.send(ranks)
 
 # keep_alive()
 client.run(TOKEN)

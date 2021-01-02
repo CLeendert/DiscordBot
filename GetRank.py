@@ -5,6 +5,7 @@ from pyrez.enumerations import QueueSmite
 from env_vars import devId, authKey
 
 
+
 class LastMatch:
 
     def __init__(self, player_name):
@@ -20,24 +21,38 @@ class LastMatch:
             conquestrank = self.smiteAPI.getPlayer(self.player_id(), portalId=None)
             rank_number = conquestrank.rankedConquest['Tier']
             rank = Tier(rank_number).name
-            return rank
-        except PyrezException:
+            # print(conquestrank)
+            return (rank)
+
+        except PrivatePlayer:
             return('is zo een n00b die private heeft opstaan')
+        except PyrezException:
+            return('Oei! er is iets misgelopen')
 
-    #Gets Match Id's
-    # def match_history(self):
-    #     conquest = 426
-    #     matchhistory = self.smiteAPI.getMatchIds(conquest, hour=1)
-    #     return matchhistory
-    # def queuestats(self):
-    #     queuestats= self.smiteAPI.getQueueStats(playerId=self.player_id())
-    #     return queuestats
-
-    def test(self):
+    # Gets last Match Id's
+    def last_match_id(self):
         conquest = 426
-        test = self.smiteAPI.getMatchIds(conquest)
-        return max(test)
+        matchhistory = self.smiteAPI.getMatchHistory(self.player_id())
+        matchid = matchhistory[1].matchId
+        return matchid
+
+    def last_match_playerNames(self):
+        match = self.smiteAPI.getMatch(self.last_match_id())
+        names = [dic["hz_player_name"] for dic in match]
+        return names
+
+    def last_match_ranks(self):
+        names = self.last_match_playerNames()
+        ranks = []
+        for player in names:
+            ranks.append(LastMatch(player).conquest_rank())
+        return(ranks)
+
+
 #
 cleendert = LastMatch('Cleendert')
-print(cleendert.test())
-# print(QueueSmite(426).name)
+#
+print(cleendert.last_match_ranks())
+# cleendert.last_match_ranks()
+# print(cleendert.last_match_playerNames())
+# print(cleendert.queuestats())
