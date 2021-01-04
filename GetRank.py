@@ -57,16 +57,16 @@ class LastMatch:
                 ranks.remove(rank)
                 break
         #Divide Teams
+        # print(Pranks)
         T1 = list(Pranks.items())[:5]
         T2 = list(Pranks.items())[5:]
-        
         return (T1,T2)
 
 
 #
-cleendert = LastMatch('Cleendert')
-
-print(cleendert.last_match_ranks())
+# cleendert = LastMatch('Cleendert')
+#
+# print(cleendert.last_match_ranks())
 # cleendert.last_match_ranks()
 # print(cleendert.last_match_playerNames())
 # print(cleendert.queuestats())
