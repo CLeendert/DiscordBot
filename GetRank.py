@@ -1,3 +1,5 @@
+import itertools
+
 from pyrez import SmiteAPI
 from pyrez.enumerations import Tier
 from pyrez.exceptions import PyrezException, PrivatePlayer, PlayerNotFound
@@ -44,17 +46,27 @@ class LastMatch:
     def last_match_ranks(self):
         names = self.last_match_playerNames()
         ranks = []
+        Pranks = {}
         for player in names:
             ranks.append(LastMatch(player).conquest_rank())
-        zip_iterator = zip(names, ranks)
-        rank_dict = dict(zip_iterator)
-        return(rank_dict)
+        # print(ranks)
+        # print(names)
+        for name in names:
+            for rank in ranks:
+                Pranks[name] = rank
+                ranks.remove(rank)
+                break
+        #Divide Teams
+        T1 = list(Pranks.items())[:5]
+        T2 = list(Pranks.items())[5:]
+        
+        return (T1,T2)
 
 
 #
-# cleendert = LastMatch('Cleendert')
-#
-# print(cleendert.last_match_ranks())
+cleendert = LastMatch('Cleendert')
+
+print(cleendert.last_match_ranks())
 # cleendert.last_match_ranks()
 # print(cleendert.last_match_playerNames())
 # print(cleendert.queuestats())
