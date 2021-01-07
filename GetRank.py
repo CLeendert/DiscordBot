@@ -57,10 +57,25 @@ class LastMatch:
                 ranks.remove(rank)
                 break
         #Divide Teams
-        # print(Pranks)
-        T1 = list(Pranks.items())[:5]
-        T2 = list(Pranks.items())[5:]
-        return (T1,T2)
+        T1p = list(Pranks.keys())[:5]
+        T1r = list(Pranks.values())[:5]
+        T2p = list(Pranks.keys())[5:]
+        T2r = list(Pranks.values())[:5]
+        Teams = f"""
+        Enemy Team:
+        {T1p[0]} is {T1r[0]}
+        {T1p[1]} is {T1r[1]}
+        {T1p[2]} is {T1r[2]}
+        {T1p[3]} is {T1r[3]}
+        {T1p[4]} is {T1r[4]}
+        Your Team:
+        {T2p[0]} is {T2r[0]}
+        {T2p[1]} is {T2r[1]}
+        {T2p[2]} is {T2r[2]}
+        {T2p[3]} is {T2r[3]}
+        {T2p[4]} is {T2r[4]}
+        """
+        return (Teams)
 
 
 #
