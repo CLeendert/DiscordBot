@@ -13,6 +13,7 @@ class LastMatch:
     def __init__(self, player_name):
         self.smiteAPI = SmiteAPI(devId=devId, authKey=authKey)
         self.player_name = player_name
+        # print(SmiteAPI.getDataUsed(self.smiteAPI))
 
     def player_id(self):
         player_id = self.smiteAPI.getPlayerId(self.player_name, portalId=None)
@@ -23,11 +24,10 @@ class LastMatch:
             conquestrank = self.smiteAPI.getPlayer(self.player_id(), portalId=None)
             rank_number = conquestrank.rankedConquest['Tier']
             rank = Tier(rank_number).name
-            # print(conquestrank)
             return (rank)
 
         except PrivatePlayer:
-            return('is zo een n00b die private heeft opstaan')
+            return('zo een n00b die private heeft opstaan')
         except PyrezException:
             return('Oei! er is iets misgelopen')
 
@@ -60,28 +60,29 @@ class LastMatch:
         T1p = list(Pranks.keys())[:5]
         T1r = list(Pranks.values())[:5]
         T2p = list(Pranks.keys())[5:]
-        T2r = list(Pranks.values())[:5]
+        T2r = list(Pranks.values())[5:]
         Teams = f"""
-        Enemy Team:
-        {T1p[0]} is {T1r[0]}
-        {T1p[1]} is {T1r[1]}
-        {T1p[2]} is {T1r[2]}
-        {T1p[3]} is {T1r[3]}
-        {T1p[4]} is {T1r[4]}
-        Your Team:
-        {T2p[0]} is {T2r[0]}
-        {T2p[1]} is {T2r[1]}
-        {T2p[2]} is {T2r[2]}
-        {T2p[3]} is {T2r[3]}
-        {T2p[4]} is {T2r[4]}
+         
+    Enemy Team:
+        {T1p[0]}   is  {T1r[0]}
+        {T1p[1]}   is  {T1r[1]}
+        {T1p[2]}   is  {T1r[2]}
+        {T1p[3]}   is  {T1r[3]}
+        {T1p[4]}   is  {T1r[4]}
+        
+    Your Team:  
+        {T2p[0]}   is  {T2r[0]}
+        {T2p[1]}   is  {T2r[1]}
+        {T2p[2]}   is  {T2r[2]}
+        {T2p[3]}   is  {T2r[3]}
+        {T2p[4]}   is  {T2r[4]}
+        
         """
+
         return (Teams)
 
 
-#
-# cleendert = LastMatch('Cleendert')
+cleendert = LastMatch('Cleendert')
 #
 # print(cleendert.last_match_ranks())
-# cleendert.last_match_ranks()
-# print(cleendert.last_match_playerNames())
-# print(cleendert.queuestats())
+cleendert.last_match_ranks()
