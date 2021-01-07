@@ -35,5 +35,11 @@ async def on_message(message):
 
         await message.channel.send(rankslastmatch)
 
+    if msg.startswith('build'):
+
+        get_user_name = msg.split('build ', 1)[1]
+        # rankslastmatch = LastMatch(get_user_name).last_match_ranks()
+
+        # await message.channel.send(rankslastmatch)
 client.run(TOKEN)
 

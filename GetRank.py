@@ -5,7 +5,8 @@ from pyrez.enumerations import Tier
 from pyrez.exceptions import PyrezException, PrivatePlayer, PlayerNotFound
 from pyrez.enumerations import QueueSmite
 from env_vars import devId, authKey
-
+import requests
+from bs4 import BeautifulSoup
 
 
 class LastMatch:
@@ -27,9 +28,9 @@ class LastMatch:
             return (rank)
 
         except PrivatePlayer:
-            return('zo een n00b die private heeft opstaan')
+            return ('zo een n00b die private heeft opstaan')
         except PyrezException:
-            return('Oei! er is iets misgelopen')
+            return ('Oei! er is iets misgelopen')
 
     # Gets last Match Id's
     def last_match_id(self):
@@ -56,7 +57,7 @@ class LastMatch:
                 Pranks[name] = rank
                 ranks.remove(rank)
                 break
-        #Divide Teams
+        # Divide Teams
         T1p = list(Pranks.keys())[:5]
         T1r = list(Pranks.values())[:5]
         T2p = list(Pranks.keys())[5:]
@@ -82,7 +83,25 @@ class LastMatch:
         return (Teams)
 
 
-cleendert = LastMatch('Cleendert')
-#
-# print(cleendert.last_match_ranks())
-cleendert.last_match_ranks()
+class TopItems:
+    def __init__(self, god_name):
+        self.god_name = god_name
+        
+    def most_build(self):
+
+     URL = f" https://smite.guru/builds/{self.god_name}"
+     page = requests.get(URL)
+     soup = BeautifulSoup(page.content,('html.parser'))
+     build = soup.find(class_='item-img')
+     print(build)
+     return build
+  #when returns none, it's not a known god, at error handling
+
+    # def test(self):
+    #     matchhistory = self.smiteAPI.getMatchHistory(self.player_id())
+    #     print(matchhistory)
+# cleendert = LastMatch('Cleendert')
+# print(cleendert.test())
+
+cleendert = TopItems('anubis')
+cleendert.most_build()
