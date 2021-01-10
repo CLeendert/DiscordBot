@@ -63,7 +63,7 @@ class LastMatch:
         T2p = list(Pranks.keys())[5:]
         T2r = list(Pranks.values())[5:]
         Teams = f"""
-         
+         #TODO Add godnames
     Enemy Team:
         {T1p[0]}   is  {T1r[0]}
         {T1p[1]}   is  {T1r[1]}

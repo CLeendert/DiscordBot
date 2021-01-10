@@ -34,7 +34,8 @@ async def on_message(message):
         rankslastmatch = LastMatch(get_user_name).last_match_ranks()
 
         await message.channel.send(rankslastmatch)
-
+#TODO: Add error message when bot is offline
+#TODO: Add error message when name is misspelled
     if msg.startswith('build'):
 
         get_user_name = msg.split('build ', 1)[1]
