@@ -7,4 +7,6 @@ from DiscordBot.env_vars import devId, authKey
 smiteAPI = SmiteAPI(devId=devId, authKey=authKey)
 
 player_id = smiteAPI.getPlayerId('cleendert', portalId=None)
-print(player_id[0].playerId)
+# print(player_id[0].playerId)
+player = smiteAPI.getMatch('cleendert')
+print(player)

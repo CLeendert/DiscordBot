@@ -21,9 +21,12 @@ class LastMatch:
         return player_id[0].playerId
 
     def conquest_rank(self):
+         #TODO: call teveel, moet eruit
         try:
-            conquestrank = self.smiteAPI.getPlayer(self.player_id(), portalId=None)
-            rank_number = conquestrank.rankedConquest['Tier']
+            playerid = self.player_id()
+            getplayer = self.smiteAPI.getPlayer(playerid, portalId=None)
+            rank_number = getplayer.rankedConquest['Tier']
+            #Change rank number to rank text
             rank = Tier(rank_number).name
             return (rank)
 
@@ -34,7 +37,6 @@ class LastMatch:
 
     def god_name(self, match):
         god_names = [dic["Reference_Name"] for dic in match]
-        # print(god_names)
         return god_names
 
     # Gets last Match Id's
@@ -50,13 +52,15 @@ class LastMatch:
 
     def last_match_ranks(self):
         match = self.smiteAPI.getMatch(self.last_match_id())
+        # print(match)
         Godnames = self.god_name(match)
         names = self.last_match_playerNames(match)
+        # print(names)
         ranks = []
         for player in names:
             ranks.append(LastMatch(player).conquest_rank())
-            Godnames.append(LastMatch(player).god_name())
-
+            Godnames.append(self.god_name(match))
+        print(ranks)
         Pranks = {}
         #TODO: This is the last god played, needs to be connected to the match id
         GodNamesOfPlayers = {}
@@ -116,6 +120,7 @@ class LastMatch:
 
 cleendert = LastMatch('Cleendert')
 print(cleendert.last_match_ranks())
+# cleendert.last_match_ranks()
 # cleendert.god_name()
 # cleendert = TopItems('anubis')
 # cleendert.most_build()
