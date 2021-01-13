@@ -33,13 +33,14 @@ class LastMatch:
             return ('Oei! er is iets misgelopen')
 
     def god_name(self):
-        matchhistory = self.smiteAPI.getMatchHistory(self.player_id())
-        god_name = matchhistory[0].godName
-        return god_name
+        match = self.smiteAPI.getMatch(self.last_match_id())
+        god_names = [dic["Reference_Name"] for dic in match]
+        # print(god_names)
+        return god_names
 
     # Gets last Match Id's
     def last_match_id(self):
-        # conquest = 426
+        conquest = 426
         matchhistory = self.smiteAPI.getMatchHistory(self.player_id())
         matchid = matchhistory[0].matchId
         return matchid
@@ -50,12 +51,13 @@ class LastMatch:
         return names
 
     def last_match_ranks(self):
-        Godnames = []
+        Godnames = self.god_name()
         names = self.last_match_playerNames()
         ranks = []
         for player in names:
             ranks.append(LastMatch(player).conquest_rank())
             Godnames.append(LastMatch(player).god_name())
+            
         Pranks = {}
         #TODO: This is the last god played, needs to be connected to the match id
         GodNamesOfPlayers = {}
@@ -113,8 +115,8 @@ class LastMatch:
 # when returns none, it's not a known god, at error handling
 
 
-# cleendert = LastMatch('Cleendert')
-# print(cleendert.last_match_ranks())
-
+cleendert = LastMatch('Cleendert')
+print(cleendert.last_match_ranks())
+# cleendert.god_name()
 # cleendert = TopItems('anubis')
 # cleendert.most_build()
