@@ -32,8 +32,7 @@ class LastMatch:
         except PyrezException:
             return ('Oei! er is iets misgelopen')
 
-    def god_name(self):
-        match = self.smiteAPI.getMatch(self.last_match_id())
+    def god_name(self, match):
         god_names = [dic["Reference_Name"] for dic in match]
         # print(god_names)
         return god_names
@@ -45,19 +44,19 @@ class LastMatch:
         matchid = matchhistory[0].matchId
         return matchid
 
-    def last_match_playerNames(self):
-        match = self.smiteAPI.getMatch(self.last_match_id())
+    def last_match_playerNames(self, match):
         names = [dic["hz_player_name"] for dic in match]
         return names
 
     def last_match_ranks(self):
-        Godnames = self.god_name()
-        names = self.last_match_playerNames()
+        match = self.smiteAPI.getMatch(self.last_match_id())
+        Godnames = self.god_name(match)
+        names = self.last_match_playerNames(match)
         ranks = []
         for player in names:
             ranks.append(LastMatch(player).conquest_rank())
             Godnames.append(LastMatch(player).god_name())
-            
+
         Pranks = {}
         #TODO: This is the last god played, needs to be connected to the match id
         GodNamesOfPlayers = {}
