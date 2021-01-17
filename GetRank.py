@@ -1,5 +1,4 @@
 import itertools
-
 from pyrez import SmiteAPI
 from pyrez.enumerations import Tier
 from pyrez.exceptions import PyrezException, PrivatePlayer, PlayerNotFound
