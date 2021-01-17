@@ -117,8 +117,8 @@ class LastMatch:
 # when returns none, it's not a known god, at error handling
 
 
-cleendert = LastMatch('Cleendert')
-print(cleendert.last_match_ranks())
+# cleendert = LastMatch('Cleendert')
+# print(cleendert.last_match_ranks())
 # cleendert.last_match_ranks()
 # cleendert.god_name()
 # cleendert = TopItems('anubis')
