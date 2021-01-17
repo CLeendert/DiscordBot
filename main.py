@@ -3,32 +3,89 @@ from env_vars import TOKEN
 from GetRank import LastMatch
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
+
 stemmer = LancasterStemmer()
 import numpy
 import tflearn
-import tensorflow
+import tensorflow as tf
 import random
 import json
 
-#Deep learning
+
+nltk.download('punkt')
+
+SENT_DETECTOR = nltk.data.load('tokenizers/punkt/english.pickle')
+# Deep learning
 with open("intents.json") as file:
     data = json.load(file)
 words = []
 labels = []
-docs = []
+docs_x = []
+docs_y = []
 
 for intent in data["intents"]:
     for pattern in intent["patterns"]:
         wrds = nltk.word_tokenize(pattern)
         words.extend(wrds)
-        docs.append(pattern)
+        docs_x.append(wrds)
+        docs_y.append(["tag"])
 
     if intent["tag"] not in labels:
         labels.append(intent["tag"])
+words = [stemmer.stem(w.lower()) for w in words if w not in "?"]
+words = sorted(list(set(words)))
+
+labels = sorted(labels)
+
+training = []
+output = []
+
+out_empty = [0 for _ in range(len(labels))]
+
+for x, doc in enumerate(docs_x):
+    bag = []
+
+    wrds = [stemmer.stem(w) for w in doc]
+
+    for w in words:
+        if w in wrds:
+            bag.append(1)
+        else:
+            bag.append(0)
+
+    output_row = out_empty[:]
+    output_row[labels.index(docs_y[x])] = 1
+
+    training.append(bag)
+    output.append(output_row)
+# Take lists and turn them into arrays
+training = numpy.array(training)
+output = numpy.array(output)
+
+# tf.reset_default_graph()
+
+net = tflearn.input_data(shape=[None, len(training[0])])
+#2 Hidden layers
+net = tflearn.fully_connected(net, 8)
+net = tflearn.fully_connected(net, 8)
+#output layer which is not hidden and has softmax applied
+net = tflearn.fully_connected(net, len(output[0]), activation="softmax")
+net = tflearn.regression(net)
+
+model = tflearn.DNN(net)
+
+model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
+model.save("model.tflearn")
 
 
-#SmiteAPI + Discord Bot
+
+
+
+
+# SmiteAPI + Discord Bot
 client = discord.Client()
+
+
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
@@ -54,18 +111,18 @@ async def on_message(message):
         await message.channel.send('Nee die is toch ' + rankleendert)
 
     if msg.startswith('last match'):
-
         get_user_name = msg.split('last match ', 1)[1]
         rankslastmatch = LastMatch(get_user_name).last_match_ranks()
 
         await message.channel.send(rankslastmatch)
-#TODO: Add error message when bot is offline
-#TODO: Add error message when name is misspelled
-    if msg.startswith('build'):
 
-        get_user_name = msg.split('build ', 1)[1]
-        # rankslastmatch = LastMatch(get_user_name).last_match_ranks()
 
-        # await message.channel.send(rankslastmatch)
+# TODO: Add error message when bot is offline
+# TODO: Add error message when name is misspelled
+# if msg.startswith('build'):
+#
+#     get_user_name = msg.split('build ', 1)[1]
+#     # rankslastmatch = LastMatch(get_user_name).last_match_ranks()
+#
+#     # await message.channel.send(rankslastmatch)
 client.run(TOKEN)
-
