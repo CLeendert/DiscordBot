@@ -71,8 +71,6 @@ except:
     with open("data.pickle", "wb") as f:
         pickle.dump((words, labels, training, output), f)
 
-# tf.reset_default_graph()
-
 net = tflearn.input_data(shape=[None, len(training[0])])
 #2 Hidden layers
 net = tflearn.fully_connected(net, 8)
@@ -85,15 +83,37 @@ model = tflearn.DNN(net)
 
 try:
     model.load("model.tflearn")
-
 except:
     model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
     model.save("model.tflearn")
-
+#TODO: Bag_of_words??
 def bag_of_words(s, words):
-    
+    bag = [0 for _ in range(len(words))]
 
+    s_words = nltk.word_tokenize(s)
+    s_words = [stemmer.stem(word.lower()) for word in s_words]
 
+    for se in s_words:
+        for i,w in enumerate(words):
+            if w == se:
+                bag[i]=(1)
+    return numpy.array(bag)
+
+def chat():
+    print("Start talking with the bot!(Type ikbeneenshitnoob to stop")
+    while True:
+        inp = input("You: ")
+        if inp.lower == "quit":
+            break
+        results = model.predict([bag_of_words(inp,words)])
+        #Puts probability number from results into numpy functie to retrieve correct JSon intent
+        results_index = numpy.argmax(results)
+        tag = labels[results_index]
+        for tg in data["intents"]:
+            if tg["tag"] == tag:
+                responses = tg["responses"]
+        print(random.choice(responses))
+chat()
 # SmiteAPI + Discord Bot
 client = discord.Client()
 
@@ -102,6 +122,9 @@ client = discord.Client()
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
 
+# def get_user_name(msg):
+#     get_user_name = msg.split('rank ', 1)[1]
+#     return get_user_name
 
 @client.event
 async def on_message(message):
@@ -109,7 +132,7 @@ async def on_message(message):
         return
 
     msg = message.content
-
+    get_user_name = msg.split('rank ', 1)[1]
     if msg.startswith('rank'):
         get_user_name = msg.split('rank ', 1)[1]
         rank = LastMatch(get_user_name).conquest_rank()

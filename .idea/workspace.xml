@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ae320ab9-f793-4959-8715-85cb4d8a7808" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PYREZ_LOG_FILE.log" beforeDir="false" afterPath="$PROJECT_DIR$/PYREZ_LOG_FILE.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
