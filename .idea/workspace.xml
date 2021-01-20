@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ae320ab9-f793-4959-8715-85cb4d8a7808" name="Default Changelist" comment="">
+    <list default="true" id="ae320ab9-f793-4959-8715-85cb4d8a7808" name="Default Changelist" comment="Part 4 finished">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PYREZ_LOG_FILE.log" beforeDir="false" afterPath="$PROJECT_DIR$/PYREZ_LOG_FILE.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/data.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/intents.json" beforeDir="false" afterPath="$PROJECT_DIR$/intents.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,6 +64,18 @@
       <option name="presentableId" value="Default" />
       <updated>1610893905956</updated>
     </task>
+    <task id="LOCAL-00001" summary="Part 4 finished">
+      <created>1611093481727</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1611093481727</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Part 4 finished" />
+    <option name="LAST_COMMIT_MESSAGE" value="Part 4 finished" />
   </component>
 </project>

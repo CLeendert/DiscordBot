@@ -3,8 +3,6 @@ from env_vars import TOKEN
 from GetRank import LastMatch
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
-
-stemmer = LancasterStemmer()
 import numpy
 import tflearn
 import tensorflow as tf
@@ -12,6 +10,7 @@ import random
 import json
 import pickle
 
+stemmer = LancasterStemmer()
 
 nltk.download('punkt')
 
@@ -19,10 +18,11 @@ SENT_DETECTOR = nltk.data.load('tokenizers/punkt/english.pickle')
 # Deep learning
 with open("intents.json") as file:
     data = json.load(file)
-#Put an X in try when intent data has changed, or delete old model.
+
 try:
+
     with open("data.pickle", "rb") as f:
-        words,labels, training, output = pickle.load(f)
+        words, labels, training, output = pickle.load(f)
 except:
     words = []
     labels = []
@@ -72,21 +72,26 @@ except:
         pickle.dump((words, labels, training, output), f)
 
 net = tflearn.input_data(shape=[None, len(training[0])])
-#2 Hidden layers
+# 2 Hidden layers
 net = tflearn.fully_connected(net, 8)
 net = tflearn.fully_connected(net, 8)
-#output layer which is not hidden and has softmax applied
+# output layer which is not hidden and has softmax applied
 net = tflearn.fully_connected(net, len(output[0]), activation="softmax")
 net = tflearn.regression(net)
 
 model = tflearn.DNN(net)
-
+# Put an X in try when intent data has changed, or delete old model.
 try:
+    # x.py
     model.load("model.tflearn")
 except:
     model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
     model.save("model.tflearn")
-#TODO: Bag_of_words??
+
+
+# TODO: Bag_of_words??
+
+
 def bag_of_words(s, words):
     bag = [0 for _ in range(len(words))]
 
@@ -94,26 +99,31 @@ def bag_of_words(s, words):
     s_words = [stemmer.stem(word.lower()) for word in s_words]
 
     for se in s_words:
-        for i,w in enumerate(words):
+        for i, w in enumerate(words):
             if w == se:
-                bag[i]=(1)
+                bag[i] = (1)
     return numpy.array(bag)
 
-def chat():
-    print("Start talking with the bot!(Type ikbeneenshitnoob to stop")
+
+def chat(msg):
+    # print("Start talking with the bot!(Type ikbeneenshitnoob to stop")
     while True:
-        inp = input("You: ")
+        inp = msg
         if inp.lower == "quit":
             break
-        results = model.predict([bag_of_words(inp,words)])
-        #Puts probability number from results into numpy functie to retrieve correct JSon intent
+        results = model.predict([bag_of_words(inp, words)])[0]
+        # Puts probability number from results into numpy functie to retrieve correct JSon intent
         results_index = numpy.argmax(results)
         tag = labels[results_index]
-        for tg in data["intents"]:
-            if tg["tag"] == tag:
-                responses = tg["responses"]
-        print(random.choice(responses))
-chat()
+        if results[results_index] > 0.7:
+            for tg in data["intents"]:
+                if tg["tag"] == tag:
+                    responses = tg["responses"]
+                    return(random.choice(responses))
+        else:
+            return('Wa zegt ge toch allemaal')
+
+
 # SmiteAPI + Discord Bot
 client = discord.Client()
 
@@ -121,6 +131,7 @@ client = discord.Client()
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
+
 
 # def get_user_name(msg):
 #     get_user_name = msg.split('rank ', 1)[1]
@@ -132,7 +143,7 @@ async def on_message(message):
         return
 
     msg = message.content
-    get_user_name = msg.split('rank ', 1)[1]
+    # get_user_name = msg.split('rank ', 1)[1]
     if msg.startswith('rank'):
         get_user_name = msg.split('rank ', 1)[1]
         rank = LastMatch(get_user_name).conquest_rank()
@@ -142,6 +153,7 @@ async def on_message(message):
         await message.channel.send('Jazeker')
 
     if msg.startswith('is leendert een noob?'):
+        get_user_name = msg.split('rank ', 1)[1]
         rankleendert = LastMatch(get_user_name).conquest_rank()
         await message.channel.send('Nee die is toch ' + rankleendert)
 
@@ -150,6 +162,10 @@ async def on_message(message):
         rankslastmatch = LastMatch(get_user_name).last_match_ranks()
 
         await message.channel.send(rankslastmatch)
+
+    else:
+        await message.channel.send(chat(msg))
+
 
 
 # TODO: Add error message when bot is offline

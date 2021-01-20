@@ -28,6 +28,11 @@
          "patterns": ["when are you guys open", "what are your hours", "hours of operation"],
          "responses": ["We are open 7am-4pm Monday-Friday!"],
          "context_set": ""
+        },
+          {"tag": "ben",
+         "patterns": ["Is ben een shitnoob", "is ben goed", "wie is ben"],
+         "responses": ["Nee, Ben suckt in Smite", "Ben is een dikke shitnoob","Begin niet over ben hé", "Uit bronze zal em nooit geraken"],
+         "context_set": ""
         }
    ]
 }
