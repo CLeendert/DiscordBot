@@ -1,6 +1,6 @@
 import discord
 from env_vars import TOKEN
-from GetRank import LastMatch
+from SmiteAPI import LastMatch
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
 import numpy

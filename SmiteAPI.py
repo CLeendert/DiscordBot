@@ -40,7 +40,7 @@ class LastMatch:
 
     # Gets last Match Id's
     def last_match_id(self):
-        conquest = 426
+        # conquest = 426
         matchhistory = self.smiteAPI.getMatchHistory(self.player_id())
         matchid = matchhistory[0].matchId
         return matchid
@@ -49,21 +49,39 @@ class LastMatch:
         names = [dic["hz_player_name"] for dic in match]
         return names
 
+    def last_match_playerIds(self, match):
+        ids = [dic["playerId"] for dic in match]
+        return ids
+
+    def rank_from_match(self, match):
+        conquest_tier = [dic["Conquest_Tier"] for dic in match]
+        return conquest_tier
+
+    def rank_number_to_text(self, player_rank_number):
+        ranks = []
+        for rank in player_rank_number:
+            ranks.append(Tier(rank).name)
+        return ranks
+
     def last_match_ranks(self):
         match = self.smiteAPI.getMatch(self.last_match_id())
         # print(match)
         Godnames = self.god_name(match)
         names = self.last_match_playerNames(match)
+        player_id = self.last_match_playerIds(match)
+        player_rank_number = self.rank_from_match(match)
+        ranks = self.rank_number_to_text(player_rank_number)
+
         # print(names)
-        ranks = []
-        for player in names:
-            ranks.append(LastMatch(player).conquest_rank())
-            Godnames.append(self.god_name(match))
-        print(ranks)
+        # ranks = []
+        # for id in player_id:
+        #     ranks.append(self.rank_from_match(match))
+        #     Godnames.append(self.god_name(match))
+        # print(ranks)
         Pranks = {}
         #TODO: This is the last god played, needs to be connected to the match id
         GodNamesOfPlayers = {}
-
+        #Alles in dictonaries zetten
         for name in names:
             for rank in ranks:
                 Pranks[name] = rank
@@ -99,7 +117,7 @@ class LastMatch:
         
         """
 
-        return (Teams)
+        return Teams
 
 
 # class TopItems:
@@ -117,8 +135,9 @@ class LastMatch:
 # when returns none, it's not a known god, at error handling
 
 
-# cleendert = LastMatch('Cleendert')
-# print(cleendert.last_match_ranks())
+cleendert = LastMatch('Cleendert')
+print(cleendert.last_match_ranks())
+
 # cleendert.last_match_ranks()
 # cleendert.god_name()
 # cleendert = TopItems('anubis')
